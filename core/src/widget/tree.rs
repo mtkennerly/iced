@@ -242,6 +242,18 @@ impl State {
         }
     }
 
+    /// Downcasts the [`State`] to `T` and returns a reference to it
+    /// if the type matches.
+    pub fn downcast_ref_maybe<T>(&self) -> Option<&T>
+    where
+        T: 'static,
+    {
+        match self {
+            State::None => None,
+            State::Some(state) => state.downcast_ref(),
+        }
+    }
+
     /// Downcasts the [`State`] to `T` and returns a mutable reference to it.
     ///
     /// # Panics
@@ -255,6 +267,18 @@ impl State {
             State::Some(state) => {
                 state.downcast_mut().expect("Downcast widget state")
             }
+        }
+    }
+
+    /// Downcasts the [`State`] to `T` and returns a mutable reference to it
+    /// if the type matches.
+    pub fn downcast_mut_maybe<T>(&mut self) -> Option<&mut T>
+    where
+        T: 'static,
+    {
+        match self {
+            State::None => None,
+            State::Some(state) => state.downcast_mut(),
         }
     }
 }
